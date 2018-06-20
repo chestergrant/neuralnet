@@ -5,15 +5,56 @@ import random
 class Edges:
     edge_list = {}
     
-    def addEdge(self,node1,node2,weight):
-        self.edge_list[(node1,node2)] = weight
+    def addEdge(self,node,weight):
+        self.edge_list[node] = weight
+
+    def getEdges(self):
+        return self.edge_list
+
     def printEdges(self):
         for x in self.edge_list:
             print x
             print self.edge_list[x]
 
+class Node:
+    edges = Edges()
+    
+    def addEdge(self, node, weight):
+        self.edges.addEdge(node,weight)
 
-edgesObj = Edges()
-edgesObj.addEdge(1,2,0.45)
-edgesObj.addEdge(1,3,0.32)
-edgesObj.printEdges()
+    def sigmoidFunc(self, x):
+        return (math.exp(x))/(math.exp(x) + 1)
+
+    def calculateSum(self, memory):
+        edge_list = self.edges.getEdges()
+        sum = 0.0
+        for x in edge_list:
+            sum += memory[x] * memory[edge_list[x]]
+        return sum
+            
+            
+    def computeOutput(self, memory):
+        sum = self.calculateSum(memory)
+        print "The computed weight:"+ str(sum)
+        return self.sigmoidFunc(sum)
+        
+memory = {}
+
+#inputs
+memory[0] = 1
+memory[1] = 1
+memory[2] = 1
+
+#weights
+memory[3] = 0.3
+memory[4] = 0.4
+memory[5] = -0.5
+
+aNode = Node()
+aNode.addEdge(0,3)
+aNode.addEdge(1,4)
+aNode.addEdge(2,5)
+
+val = aNode.computeOutput(memory)
+print val
+        
