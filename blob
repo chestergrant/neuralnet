@@ -1,0 +1,19 @@
+import math
+import sys
+import random
+
+class Edges:
+    edge_list = {}
+    
+    def addEdge(self,node1,node2,weight):
+        self.edge_list[(node1,node2)] = weight
+    def printEdges(self):
+        for x in self.edge_list:
+            print x
+            print self.edge_list[x]
+
+
+edgesObj = Edges()
+edgesObj.addEdge(1,2,0.45)
+edgesObj.addEdge(1,3,0.32)
+edgesObj.printEdges()
