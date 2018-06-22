@@ -41,6 +41,8 @@ class Node:
         sum = 0.0
         for x in edge_list:
             sum += memory[x] * memory[edge_list[x]]
+            print "\n memory input : "+str(x)+"\n memory weight : "+str(edge_list[x])
+            print "\ninput : "+str(memory[x]) +" weight : "+str(memory[edge_list[x]])
         return sum
             
             
@@ -63,6 +65,7 @@ class Layer:
         self.numNodes += 1
 
     def computeLayer(self, memory):
+        print "\n\n----------------------"
         for aNode in self.nodes:
             output = aNode.computeOutput(memory)
             memory = aNode.writeToMemory(memory, output)
