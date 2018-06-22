@@ -18,6 +18,17 @@ class Edges:
 
 class Node:
     edges = Edges()
+    outputLoc = 0
+    
+    def setOutputLoc(self, loc):
+        self.outputLoc = loc
+
+    def getOutputLoc(self,loc):
+        return self.outputLoc
+
+    def writeToMemory(self, memory, value):
+        memory[self.outputLoc] = value
+        return memory
     
     def addEdge(self, node, weight):
         self.edges.addEdge(node,weight)
@@ -37,18 +48,61 @@ class Node:
         sum = self.calculateSum(memory)
         print "The computed weight:"+ str(sum)
         return self.sigmoidFunc(sum)
+
+class Layer:
+    nodes = []
+    
+    def addNode(self, aNode):
+        self.nodes.append(aNode)
+
+    def computeLayer(self, memory):
+        for aNode in nodes:
+            output = x.computeOutput(memory)
+            memory = x.writeToMemory(memory, output)
+        return memory
+    
+            
         
 memory = {}
 
-#inputs
-memory[0] = 1
-memory[1] = 1
-memory[2] = 1
+#inputs from 0-999 memory location is for input
+memory[0] = 1.0
+memory[1] = 0.0
+memory[2] = 0.0
+memory[3] = 1.0
 
-#weights
-memory[3] = 0.3
-memory[4] = 0.4
-memory[5] = -0.5
+#1000 - 1999 memory location for weights
+memory[1000] = 0.5
+memory[1001] = 1.0
+memory[1002] = 0.0
+memory[1003] = 1.0
+memory[1004] = 0.5
+memory[1005] = 0.0
+memory[1006] = 0.0
+memory[1007] = 1.0
+memory[1008] = 0.5
+memory[1009] = 1.0
+memory[1010] = 1.0
+memory[1011] = 0.5
+memory[1012] = 0.0
+memory[1013] = 0.0
+memory[1014] = 0.0
+memory[1015] = 1.0
+memory[1016] = 0.5
+memory[1017] = 1.0
+memory[1018] = 0.0
+memory[1019] = 0.5
+
+  
+#2000 - 2999 memory location for Layer 1 output
+memory[2000] = 0.0
+memory[2001] = 0.0
+memory[2002] = 0.0
+
+#3000 - 3999 memory location for Layer 2 output
+memory[3000] = 0.0 
+memory[3001] = 0.0
+memory[3002] = 0.0
 
 aNode = Node()
 aNode.addEdge(0,3)
@@ -57,4 +111,3 @@ aNode.addEdge(2,5)
 
 val = aNode.computeOutput(memory)
 print val
-        
