@@ -58,14 +58,14 @@ class Layer:
         self.offset = the_offset
 
     def addNode(self, aNode):
-        aNode.setOutputLoc(self.offset + numNodes)
+        aNode.setOutputLoc(self.offset + self.numNodes)
         self.nodes.append(aNode)
         self.numNodes += 1
 
     def computeLayer(self, memory):
-        for aNode in nodes:
-            output = x.computeOutput(memory)
-            memory = x.writeToMemory(memory, output)
+        for aNode in self.nodes:
+            output = aNode.computeOutput(memory)
+            memory = aNode.writeToMemory(memory, output)
         return memory
     
             
@@ -92,7 +92,7 @@ memory[1009] = 1.0
 memory[1010] = 1.0
 memory[1011] = 0.5
 memory[1012] = 0.0
-memory[1013] = 0.0
+memory[1013] = 1.0
 memory[1014] = 0.0
 memory[1015] = 1.0
 memory[1016] = 0.5
@@ -150,7 +150,7 @@ outputLayer.addNode(aNode3)
 outputLayer.addNode(aNode4)
 
 memory = hiddenLayer.computeLayer(memory)
-memory = outputLayer.computerLayer(memory)
+memory = outputLayer.computeLayer(memory)
 
 val1 = memory[3000]
 val2 = memory[3002] 
