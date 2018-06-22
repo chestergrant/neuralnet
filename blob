@@ -51,9 +51,16 @@ class Node:
 
 class Layer:
     nodes = []
-    
+    offset = 0
+    numNodes = 0
+
+    def __init__(self,the_offset):
+        self.offset = the_offset
+
     def addNode(self, aNode):
+        aNode.setOutputLoc(self.offset + numNodes)
         self.nodes.append(aNode)
+        self.numNodes += 1
 
     def computeLayer(self, memory):
         for aNode in nodes:
@@ -104,10 +111,49 @@ memory[3000] = 0.0
 memory[3001] = 0.0
 memory[3002] = 0.0
 
-aNode = Node()
-aNode.addEdge(0,3)
-aNode.addEdge(1,4)
-aNode.addEdge(2,5)
+outputLayer =  Layer(3000)
+hiddenLayer = Layer(2000)
 
-val = aNode.computeOutput(memory)
-print val
+aNode0 = Node()
+aNode0.addEdge(0,1000) #addEdge(InputNodeMemoryAddress, WeightMemoryAddress)
+aNode0.addEdge(1,1001)
+aNode0.addEdge(2,1002)
+aNode0.addEdge(3,1003)
+
+aNode1 = Node()
+aNode1.addEdge(0,1004) #addEdge(InputNodeMemoryAddress, WeightMemoryAddress)
+aNode1.addEdge(1,1005)
+aNode1.addEdge(2,1006)
+aNode1.addEdge(3,1007)
+
+aNode2 = Node()
+aNode2.addEdge(0,1008) #addEdge(InputNodeMemoryAddress, WeightMemoryAddress)
+aNode2.addEdge(1,1009)
+aNode2.addEdge(2,1010)
+aNode2.addEdge(3,1011)
+
+aNode3 = Node()
+aNode3.addEdge(2000,1012) #addEdge(InputNodeMemoryAddress, WeightMemoryAddress)
+aNode3.addEdge(2001,1013)
+aNode3.addEdge(2002,1014)
+
+aNode4 = Node()
+aNode4.addEdge(2000,1015) #addEdge(InputNodeMemoryAddress, WeightMemoryAddress)
+aNode4.addEdge(2001,1016)
+aNode4.addEdge(2002,1017)
+
+hiddenLayer.addNode(aNode0)
+hiddenLayer.addNode(aNode1)
+hiddenLayer.addNode(aNode2)
+
+outputLayer.addNode(aNode3)
+outputLayer.addNode(aNode4)
+
+memory = hiddenLayer.computeLayer(memory)
+memory = outputLayer.computerLayer(memory)
+
+val1 = memory[3000]
+val2 = memory[3002] 
+
+print "Output 1: "+str(val1)
+print "\nOutput 2: "+str(val2)
