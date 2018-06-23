@@ -3,8 +3,9 @@ import sys
 import random
 
 class Edges:
-    edge_list = {}
-    
+    def __init__(self):
+        self.edge_list = {}
+
     def addEdge(self,node,weight):
         self.edge_list[node] = weight
 
@@ -16,10 +17,11 @@ class Edges:
             print x
             print self.edge_list[x]
 
-class Node:
-    edges = Edges()
-    outputLoc = 0
-    
+class Node:    
+    def __init__(self):
+        self.edges = Edges()
+        self.outputLoc = 0
+
     def setOutputLoc(self, loc):
         self.outputLoc = loc
 
@@ -36,37 +38,45 @@ class Node:
     def sigmoidFunc(self, x):
         return (math.exp(x))/(math.exp(x) + 1)
 
+    def printNode(self):
+        edge_list = self.edges.getEdges()
+        print edge_list
+        print "\nOutput Loccation : "+str(self.outputLoc)
+        print "--------------------------------------------\n"
+            
     def calculateSum(self, memory):
         edge_list = self.edges.getEdges()
         sum = 0.0
         for x in edge_list:
             sum += memory[x] * memory[edge_list[x]]
-            print "\n memory input : "+str(x)+"\n memory weight : "+str(edge_list[x])
-            print "\ninput : "+str(memory[x]) +" weight : "+str(memory[edge_list[x]])
+            #print "\n memory input : "+str(x)+"\n memory weight : "+str(edge_list[x])
+            #print "\ninput : "+str(memory[x]) +" weight : "+str(memory[edge_list[x]])
         return sum
             
             
     def computeOutput(self, memory):
         sum = self.calculateSum(memory)
-        print "The computed weight:"+ str(sum)
+        #print "The computed weight:"+ str(sum)
         return self.sigmoidFunc(sum)
 
 class Layer:
-    nodes = []
-    offset = 0
-    numNodes = 0
 
     def __init__(self,the_offset):
         self.offset = the_offset
+        self.numNodes = 0
+        self.nodes = []
 
     def addNode(self, aNode):
         aNode.setOutputLoc(self.offset + self.numNodes)
         self.nodes.append(aNode)
+        aNode.printNode()
         self.numNodes += 1
 
     def computeLayer(self, memory):
-        print "\n\n----------------------"
+       
         for aNode in self.nodes:
+            #aNode.printNode()
+            #print "------------------------------"
             output = aNode.computeOutput(memory)
             memory = aNode.writeToMemory(memory, output)
         return memory
