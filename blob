@@ -56,7 +56,7 @@ class Node:
             
     def computeOutput(self, memory):
         sum = self.calculateSum(memory)
-        #print "The computed weight:"+ str(sum)
+        print "\nThe computed weight:"+ str(sum)
         return self.sigmoidFunc(sum)
 
 class Layer:
@@ -69,7 +69,7 @@ class Layer:
     def addNode(self, aNode):
         aNode.setOutputLoc(self.offset + self.numNodes)
         self.nodes.append(aNode)
-        aNode.printNode()
+        #aNode.printNode()
         self.numNodes += 1
 
     def computeLayer(self, memory):
@@ -166,7 +166,7 @@ memory = hiddenLayer.computeLayer(memory)
 memory = outputLayer.computeLayer(memory)
 
 val1 = memory[3000]
-val2 = memory[3002] 
+val2 = memory[3001] 
 
 print "Output 1: "+str(val1)
 print "\nOutput 2: "+str(val2)
