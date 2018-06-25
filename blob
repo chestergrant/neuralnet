@@ -109,10 +109,9 @@ class NeuralNet:
         return memory
 
     def getOutputVector(self,memory,numOutput,offset):
-        output = []
-        
+        output = []     
         for i in range(numOutput):
-            output.append(memory[offset+i]
+            output.append(memory[offset+i])
         return output
             
    
