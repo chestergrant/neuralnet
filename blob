@@ -199,11 +199,14 @@ hiddenLayer.addNode(aNode2)
 outputLayer.addNode(aNode3)
 outputLayer.addNode(aNode4)
 
-memory = hiddenLayer.computeLayer(memory)
-memory = outputLayer.computeLayer(memory)
+net = NeuralNet()
+net.addLayer(hiddenLayer)
+net.addLayer(outputLayer)
+memory = net.setInput([1,0,0,1],memory)
+memory = net.update(memory)
+outputVal = net.getOutputVector(memory,2,3000)
 
-val1 = memory[3000]
-val2 = memory[3001] 
 
-print "Output 1: "+str(val1)
-print "\nOutput 2: "+str(val2)
+
+print "Output 1: "+str(outputVal[0])
+print "\nOutput 2: "+str(outputVal[1])
