@@ -148,6 +148,30 @@ class Agent:
     def getMainNet(self):
         return self.mainNet
 
+    def getNeuralAction(self,input,memory,outputOffSet,numOfOutput):
+        sum_output = []
+        for i in range(numOfOutput):
+            sum_output.append(0)
+
+        for aClone in self.clones:
+            memory = aClone.setInput(input,memory)
+            memory = aClone.update(memory)
+            outputVal = aClone.getOutputVector(memory,numOfOutput,outputOffSet)
+            for i in range(numOfOutput):
+                sum_output[i] += outputVal[i]
+        memory = self.mainNet.setInput(input,memory)
+        memory = self.mainNet.update(memory)
+        outputVal = self.mainNet.getOutputVector(memory,numOfOutput,outputOffSet)
+        outputAction = 0
+        for i in range(numOfOutput):
+            sum_output[i] /= numOfOutput
+            sum_output[i] = 0.5*sum_output[i] + 0.5*outputVal[i]
+            if sum_output[i] > sum_output[outputAction]:
+                outputAction = i
+        return outputAction, memory
+
+            
+        
     def evovleNet(self):
         #doSomething
 
