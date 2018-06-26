@@ -113,6 +113,47 @@ class NeuralNet:
         for i in range(numOutput):
             output.append(memory[offset+i])
         return output
+class Pos:
+    def __init__(self,begin_x,begin_y):
+        self.x = begin_x
+        self.y = begin_y
+class Agent:
+#An agent is supposed to have several neural net.
+#An area for memory
+#A location in memory
+#A physical location in the environment
+#The action action is going to be a weight sum of its neural nets
+#A Function to evolve the net an send out the evolved version
+
+    def __init__(self, numCloneNets):
+        self.clones = []
+        self.mainNet = NeuralNet()
+        self.memory ={}
+        self.physical_location = Pos()
+        self.memory_location = Pos()
+    
+        for i in range(numCloneNets):
+            aClone = self.generateClone()
+            self.clones.append(aClone)
+
+    def setClones(self, new_clones):
+        self.clones = new_clones
+
+    def setMainNet(self, new_main):
+        self.mainNet = new_main
+    
+    def getClones(self):
+        return self.clones
+
+    def getMainNet(self):
+        return self.mainNet
+
+    def evovleNet(self):
+        #doSomething
+
+
+    
+    
             
    
           
