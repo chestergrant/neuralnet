@@ -129,12 +129,44 @@ class Agent:
         self.clones = []
         self.mainNet = NeuralNet()
         self.memory ={}
+        self.rewards = 0.0
         self.physical_location = Pos()
         self.memory_location = Pos()
     
         for i in range(numCloneNets):
             aClone = self.generateClone()
             self.clones.append(aClone)
+    def getMemoryView(self,memory):
+        #get the memory that can be viewed given the current location in memory
+    
+    def getPhysicalView(self,environment):
+        #get a view of our environment
+    
+    def generateInputVector(self,environment):
+        output = []
+        output.append(self.physical_location.x)
+        output.append(self.physical_location.y)
+        output.append(self.memory_location.x)
+        output.append(self.memory_location.y)
+        output.append(self.rewards)
+        mem_view = self.getMemoryView(self.memory)
+        for item in mem_view:
+            output.append(item)
+        physical_view = self.getPhysicalView(environment)
+        for item in physical_view:
+            output.append(item)
+        return output
+    def executeAgentAction(self, action):
+        options = {}
+        options[0] = physical_up
+        options[1] = physical_down
+        options[2] = physical_left
+        options[3] = physical_right
+        options[4] = memory_left
+        options[5] = memory_right
+        options[6] = increase_val
+        options[7] = decrease_val
+        options[action]()
 
     def setClones(self, new_clones):
         self.clones = new_clones
@@ -148,21 +180,33 @@ class Agent:
     def getMainNet(self):
         return self.mainNet
 
+    def updateRewards(self, val):
+        self.rewards += val
+
     def getNeuralAction(self,input,memory,outputOffSet,numOfOutput):
         sum_output = []
+
+        #initialize output
         for i in range(numOfOutput):
             sum_output.append(0)
 
+        #Gets the output from each neural net and adds them up for each 
+        #output component
         for aClone in self.clones:
             memory = aClone.setInput(input,memory)
             memory = aClone.update(memory)
             outputVal = aClone.getOutputVector(memory,numOfOutput,outputOffSet)
             for i in range(numOfOutput):
                 sum_output[i] += outputVal[i]
+        
+        #Calculate the output for the main NeuralNet
         memory = self.mainNet.setInput(input,memory)
         memory = self.mainNet.update(memory)
         outputVal = self.mainNet.getOutputVector(memory,numOfOutput,outputOffSet)
         outputAction = 0
+    
+        #Sums the clone and main neural net and find the output with the 
+        #highest output value
         for i in range(numOfOutput):
             sum_output[i] /= numOfOutput
             sum_output[i] = 0.5*sum_output[i] + 0.5*outputVal[i]
