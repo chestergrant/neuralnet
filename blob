@@ -142,6 +142,10 @@ class Agent:
             self.clones.append(aClone)
     
     def generateNetFromStructure(self, structure, memory):
+        #A structure for a neural net:
+        #[numInput, numLayers,(x11,x12,x13..x1n),(x21,x22,x23,..x2n),...(xn1,xn2,xn3...xnn)]
+        #where x11 represents the number of connections from the previous layer to hidden layer 1 to node 1
+        #where x34 represents the number of connections previous layer to hidden layer 3 to node 4 in that layer etc.
         numInput = structure[0]
         numLayers = structure[1]
         numPrevLayerNodes = numInput
