@@ -125,17 +125,55 @@ class Agent:
 #The action action is going to be a weight sum of its neural nets
 #A Function to evolve the net an send out the evolved version
 
-    def __init__(self, numCloneNets):
+#Structure of the neural net? How do I set it
+#How do I modify it once it has been set
+    def __init__(self, numCloneNets, cloneStructure, mainStructure):
+        self.layerCount = {}
         self.clones = []
-        self.mainNet = NeuralNet()
         self.memory ={}
+        self.mainNet,self.memory = self.generateNetFromStructure(mainStructure, self.memory)
+        
         self.rewards = 0.0
         self.physical_location = Pos()
         self.memory_location = Pos()
     
         for i in range(numCloneNets):
-            aClone = self.generateClone()
+            aClone,self.memory = self.generateNetFromStructure(cloneStructure, self.memory)
             self.clones.append(aClone)
+    
+    def generateNetFromStructure(self, structure, memory):
+        numInput = structure[0]
+        numLayers = structure[1]
+        numPrevLayerNodes = numInput
+        output = NeuralNet()
+        #Create the weights and nodes         
+        for i in range(numLayers):
+            idx = i + 2
+            layer_structure = structure[idx]
+            aLayer = Layer((i+1)*100000)
+            for x in layer_structure:
+                memory[layer_count[i+1]+(i+1)*100000] = random.uniform(-1,1)
+                layer_count[i+1] += 1
+                aNode = Node()
+                for edge in range(x):
+                    layer_idx = layer_count[i+1]+(i+1)*100000-edge
+                    
+    
+                    if i == 0:
+                        lower_bound = 0
+                        upper_bound = lower_bound + numInput
+                    else:
+                        lower_bound = layer_count[i] + i*100000 - numPrevLayerNodes
+                        upperbound = layer_count[i] + i*100000
+                    randNode = random.randInt(lower_bound,upper_bound)
+                    aNode.addEdge(randNode,layer_idx)
+                aLayer.addNode(aNode)
+            numPrevLayerNodes = len(layer_structure)
+            output.addLayer(aLayer)
+        return output, memory
+        
+                
+
     def getMemoryView(self,memory):
         #get the memory that can be viewed given the current location in memory
     
@@ -156,18 +194,7 @@ class Agent:
         for item in physical_view:
             output.append(item)
         return output
-    def executeAgentAction(self, action):
-        options = {}
-        options[0] = physical_up
-        options[1] = physical_down
-        options[2] = physical_left
-        options[3] = physical_right
-        options[4] = memory_left
-        options[5] = memory_right
-        options[6] = increase_val
-        options[7] = decrease_val
-        options[action]()
-
+   
     def setClones(self, new_clones):
         self.clones = new_clones
 
