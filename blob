@@ -183,7 +183,7 @@ class Agent:
                         else:
                             lower_bound = layer_count[i] + i*100000 - numPrevLayerNodes
                             upperbound = layer_count[i] + i*100000
-                        randNode = random.randInt(lower_bound,upper_bound)
+                        randNode = random.randInt(lower_bound,upper_bound) #The Output of a node need not be as memory layer.  I need to modify this
                         aNode.addEdge(randNode,edge_idx)
 
                     aLayer.addNode(aNode)
