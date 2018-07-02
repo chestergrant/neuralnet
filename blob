@@ -128,7 +128,9 @@ class Agent:
 #Structure of the neural net? How do I set it
 #How do I modify it once it has been set
     def __init__(self, numCloneNets, cloneStructure, mainStructure):
-        self.layerCount = {}
+        self.layerCount = {} #Store for each layer the num of nodes cross all network
+                             #in that layer number
+
         self.clones = []
         self.memory ={}
         self.mainNet,self.memory = self.generateNetFromStructure(mainStructure, self.memory)
@@ -150,30 +152,43 @@ class Agent:
         numLayers = structure[1]
         numPrevLayerNodes = numInput
         output = NeuralNet()
+
         #Create the weights and nodes         
         for i in range(numLayers):
             idx = i + 2
             layer_structure = structure[idx]
-            aLayer = Layer((i+1)*100000)
+
+            #Layers are given a hundred thousand space to fit in
+            #might might need to modify it to account for more neural net
+            #The input layer is 0 - 99999
+            #The next layer is 100000 - 199999
+            #The next layer is 200000 - 299999 and so on
+            base = layer_count[i+1]+(i+1)*100000
+            aLayer = Layer(base)
+
             for x in layer_structure:
-                memory[layer_count[i+1]+(i+1)*100000] = random.uniform(-1,1)
-                layer_count[i+1] += 1
-                aNode = Node()
-                for edge in range(x):
-                    layer_idx = layer_count[i+1]+(i+1)*100000-edge
-                    
-    
-                    if i == 0:
-                        lower_bound = 0
-                        upper_bound = lower_bound + numInput
-                    else:
-                        lower_bound = layer_count[i] + i*100000 - numPrevLayerNodes
-                        upperbound = layer_count[i] + i*100000
-                    randNode = random.randInt(lower_bound,upper_bound)
-                    aNode.addEdge(randNode,layer_idx)
-                aLayer.addNode(aNode)
-            numPrevLayerNodes = len(layer_structure)
-            output.addLayer(aLayer)
+                
+                
+                for n in range(x):
+                    aNode = Node()
+                    for edge in range(n):
+                        edge_idx = base + edge
+                        memory[edge_idx] = random.uniform(-1,1)
+                        layer_count[i+1] += 1                        
+                         
+                               
+                        if i == 0:
+                            lower_bound = 0
+                            upper_bound = lower_bound + numInput
+                        else:
+                            lower_bound = layer_count[i] + i*100000 - numPrevLayerNodes
+                            upperbound = layer_count[i] + i*100000
+                        randNode = random.randInt(lower_bound,upper_bound)
+                        aNode.addEdge(randNode,edge_idx)
+
+                    aLayer.addNode(aNode)
+                numPrevLayerNodes = len(x)
+                output.addLayer(aLayer)
         return output, memory
         
                 
