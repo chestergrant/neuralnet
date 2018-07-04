@@ -34,7 +34,9 @@ class Node:
     def writeToMemory(self, memory, value):
         memory[self.outputLoc] = value
         return memory
-    
+
+    #Node - Input Node's Location in memory
+    #Edge - location in memory    
     def addEdge(self, node, weight):
         self.edges.addEdge(node,weight)
 
@@ -128,8 +130,9 @@ class Agent:
 #Structure of the neural net? How do I set it
 #How do I modify it once it has been set
     def __init__(self, numCloneNets, cloneStructure, mainStructure):
-        self.layerCount = {} #Store for each layer the num of nodes cross all network
+        self.layer_count = {} #Store for each layer the num of nodes cross all network
                              #in that layer number
+        self.edge_count = {}
 
         self.clones = []
         self.memory ={}
@@ -152,41 +155,55 @@ class Agent:
         numLayers = structure[1]
         numPrevLayerNodes = numInput
         output = NeuralNet()
+        self.layer_count[0] = numInput
 
         #Create the weights and nodes         
         for i in range(numLayers):
             idx = i + 2
             layer_structure = structure[idx]
 
+            if not self.layer_count.has_key(i+1) :
+                self.layer_count[i+1] = 0
+            if not self.edge_count.has_key(i+1):
+                self.edge_count[i+1] = 0
+
             #Layers are given a hundred thousand space to fit in
             #might might need to modify it to account for more neural net
-            #The input layer is 0 - 99999
-            #The next layer is 100000 - 199999
-            #The next layer is 200000 - 299999 and so on
-            base = layer_count[i+1]+(i+1)*100000
+            #0 - 99999 Input Node
+            #100000 - 199999 Output of Layer 1 Node for all neural net
+            #200000 - 299,999 Output of Layer 2 Node
+            #300000 - 399,999 Output of Layer 3 Node etc.
+
+            #1,100,000 - 1,199,999 Edge memory connecting input and layer 1
+            #1,200,000 - 1,299,999 Edge memory connecting layer 1 and layer 2 etc.
+            
+            #edge_count stores the number of edges in each layer
+            edge_base = 1000000 + self.edge_count[i+1]+(i+1)*100000
+
+            base = self.layer_count[i+1]
             aLayer = Layer(base)
 
-            for x in layer_structure:
-                
+            for x in layer_structure:        
                 
                 for n in range(x):
                     aNode = Node()
                     for edge in range(n):
-                        edge_idx = base + edge
+                        edge_idx = edge_base + edge
                         memory[edge_idx] = random.uniform(-1,1)
-                        layer_count[i+1] += 1                        
+                        self.edge_count[i+1] += 1      #maybe this should be edgecount idk                  
                          
                                
                         if i == 0:
                             lower_bound = 0
                             upper_bound = lower_bound + numInput
                         else:
-                            lower_bound = layer_count[i] + i*100000 - numPrevLayerNodes
-                            upperbound = layer_count[i] + i*100000
+                            lower_bound = self.layer_count[i] + i*100000 - numPrevLayerNodes
+                            upperbound = self.layer_count[i] + i*100000
                         randNode = random.randInt(lower_bound,upper_bound) #The Output of a node need not be as memory layer.  I need to modify this
                         aNode.addEdge(randNode,edge_idx)
 
                     aLayer.addNode(aNode)
+                    self.layer_count[i+1] += 1 #increase the number of nodes in layer
                 numPrevLayerNodes = len(x)
                 output.addLayer(aLayer)
         return output, memory
