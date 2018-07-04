@@ -1,0 +1,29 @@
+What you need to know?
+how everythign is setup
+What arguments they take etc.
+
+Neural Network consist of Layers.  There is a 
+special Input layer where you can set the input.
+For all neural net.  The input is 0 - 100,000 or
+some number to be determined in the future.
+To get the neural Net to compute you need to call
+its update function.  To get the output for the neural net
+you need to call the getOutputVector function.
+
+
+A layer consist of nodes.  It has a computeLayer function
+that goes through each node an compute its output
+then takes that output and write it to the nodes corresponding memory
+for its designated output. Each layer takes an offset
+and it's from this offset that output of each node is stored.
+The input for a node must be specified through its memory location ie
+the memory location of the previous layer.
+
+
+#0 - 99999 Input Node
+#100000 - 199999 Output of Layer 1 Node for all neural net
+#200000 - 299,999 Output of Layer 2 Node
+#300000 - 399,999 Output of Layer 3 Node etc.
+
+#1,100,000 - 1,199,999 Edge memory connecting input and layer 1
+#1,200,000 - 1,299,999 Edge memory connecting layer 1 and layer 2 etc.  
