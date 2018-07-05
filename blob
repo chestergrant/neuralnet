@@ -156,11 +156,14 @@ class Agent:
         numPrevLayerNodes = numInput
         output = NeuralNet()
         self.layer_count[0] = numInput
+        
+        print structure
 
         #Create the weights and nodes         
         for i in range(numLayers):
             idx = i + 2
             layer_structure = structure[idx]
+            print "--->"+str(layer_structure)
 
             if not self.layer_count.has_key(i+1) :
                 self.layer_count[i+1] = 0
@@ -199,18 +202,18 @@ class Agent:
                         else:
                             lower_bound = self.layer_count[i] + i*100000 - numPrevLayerNodes
                             upperbound = self.layer_count[i] + i*100000
-                        randNode = random.randInt(lower_bound,upper_bound) #The Output of a node need not be as memory layer.  I need to modify this
+                        randNode = random.randint(lower_bound,upper_bound) #The Output of a node need not be as memory layer.  I need to modify this
                         aNode.addEdge(randNode,edge_idx)
 
                     aLayer.addNode(aNode)
                     self.layer_count[i+1] += 1 #increase the number of nodes in layer
-                numPrevLayerNodes = len(x)
+                numPrevLayerNodes = len(layer_structure)
                 output.addLayer(aLayer)
         return output, memory
         
                 
 
-    def getMemoryView(self,memory):
+    '''def getMemoryView(self,memory):
         #get the memory that can be viewed given the current location in memory
     
     def getPhysicalView(self,environment):
@@ -281,8 +284,9 @@ class Agent:
         
     def evovleNet(self):
         #doSomething
+    '''
 
-anAgent = Agent(2,[2,2,(2,2),(2)],[2,2,(2,2),(2)])
+anAgent = Agent(2,[2,2,[2,2],[2]],[2,2,[2,2],[2]])
     
     
             
