@@ -282,7 +282,7 @@ class Agent:
     def evovleNet(self):
         #doSomething
 
-
+anAgent = Agent(2,[2,2,(2,2),(2)],[2,2,(2,2),(2)])
     
     
             
@@ -291,7 +291,7 @@ class Agent:
 
     
             
-        
+'''        
 memory = {}
 
 #inputs from 0-999 memory location is for input
@@ -382,3 +382,4 @@ outputVal = net.getOutputVector(memory,2,3000)
 
 print "Output 1: "+str(outputVal[0])
 print "\nOutput 2: "+str(outputVal[1])
+'''
