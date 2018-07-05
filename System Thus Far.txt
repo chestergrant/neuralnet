@@ -27,3 +27,5 @@ the memory location of the previous layer.
 
 #1,100,000 - 1,199,999 Edge memory connecting input and layer 1
 #1,200,000 - 1,299,999 Edge memory connecting layer 1 and layer 2 etc.  
+
+What I need to do, test this new structured stuff.
