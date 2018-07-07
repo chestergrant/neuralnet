@@ -198,10 +198,13 @@ class Agent:
                                
                         if i == 0:
                             lower_bound = 0
-                            upper_bound = lower_bound + numInput
+                            upper_bound = lower_bound + numInput-1
                         else:
+                            upper_bound = self.layer_count[i] + i*100000 - 1
                             lower_bound = self.layer_count[i] + i*100000 - numPrevLayerNodes
-                            upperbound = self.layer_count[i] + i*100000
+                            
+                        print 'lower bound: '+str(lower_bound)
+                        print  "upper bound: "+str(upper_bound)
                         randNode = random.randint(lower_bound,upper_bound) #The Output of a node need not be as memory layer.  I need to modify this
                         aNode.addEdge(randNode,edge_idx)
 
