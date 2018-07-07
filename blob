@@ -139,8 +139,8 @@ class Agent:
         self.mainNet,self.memory = self.generateNetFromStructure(mainStructure, self.memory)
         
         self.rewards = 0.0
-        self.physical_location = Pos()
-        self.memory_location = Pos()
+        self.physical_location = Pos(0,0)
+        self.memory_location = Pos(0,0)
     
         for i in range(numCloneNets):
             aClone,self.memory = self.generateNetFromStructure(cloneStructure, self.memory)
