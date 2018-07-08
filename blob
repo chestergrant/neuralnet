@@ -76,8 +76,13 @@ class Layer:
         self.nodes.append(aNode)
         #aNode.printNode()
         self.numNodes += 1
-    def getNodes():
+    def getNodes(self):
         return self.nodes
+
+    def printLayer(self):
+        for aNode in self.nodes:
+            aNode.printNode()
+        
 
     def computeLayer(self, memory):
        
@@ -97,6 +102,10 @@ class NeuralNet:
     def addLayer(self, aLayer):
         self.layers.append(aLayer)
         self.numLayers += 1
+    
+    def printNet(self):
+        for aLayer in self.layers:
+            aLayer.printLayer()
 
     def setInput(self,inputLayer,memory):
         count = 0        
