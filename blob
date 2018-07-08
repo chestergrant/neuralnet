@@ -16,6 +16,8 @@ class Edges:
         return self.edge_list
 
     def printEdges(self,memory):
+        print memory
+        print self.edge_list
         print "(Node memory, Weight memory, Node Value, Weight Value)"
         for x in self.edge_list:
             weight_memory = self.edge_list[x]
