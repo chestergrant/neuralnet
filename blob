@@ -15,10 +15,14 @@ class Edges:
     def getEdges(self):
         return self.edge_list
 
-    def printEdges(self):
+    def printEdges(self,memory):
+        print "(Node memory, Weight memory, Node Value, Weight Value)"
         for x in self.edge_list:
-            print x
-            print self.edge_list[x]
+            weight_memory = self.edge_list[x]
+            node_value = memory[x]
+            weight_value = memory[weight_memory]
+            print "("+str(x)+", "+str(weight_memory)+", "+ str(node_value)+", "+str(weight_value)+")"
+
 
 class Node:    
     def __init__(self):
@@ -43,11 +47,9 @@ class Node:
     def sigmoidFunc(self, x):
         return (math.exp(x))/(math.exp(x) + 1)
 
-    def printNode(self):
-        edge_list = self.edges.getEdges()
-        print edge_list
-        print "\nOutput Loccation : "+str(self.outputLoc)
-        print "--------------------------------------------\n"
+    def printNode(self,memory):
+        self.edges.printEdges(memory)     
+        
             
     def calculateSum(self, memory):
         edge_list = self.edges.getEdges()
@@ -79,9 +81,9 @@ class Layer:
     def getNodes(self):
         return self.nodes
 
-    def printLayer(self):
+    def printLayer(self,memory):
         for aNode in self.nodes:
-            aNode.printNode()
+            aNode.printNode(memory)
         
 
     def computeLayer(self, memory):
@@ -103,9 +105,9 @@ class NeuralNet:
         self.layers.append(aLayer)
         self.numLayers += 1
     
-    def printNet(self):
+    def printNet(self,memory):
         for aLayer in self.layers:
-            aLayer.printLayer()
+            aLayer.printLayer(memory)
 
     def setInput(self,inputLayer,memory):
         count = 0        
@@ -146,7 +148,7 @@ class Agent:
         self.clones = []
         self.memory ={}
         self.mainNet,self.memory = self.generateNetFromStructure(mainStructure, self.memory)
-        
+        self.mainNet.printNet(self.memory)
         self.rewards = 0.0
         self.physical_location = Pos(0,0)
         self.memory_location = Pos(0,0)
