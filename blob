@@ -16,7 +16,7 @@ class Edges:
         return self.edge_list
 
     def printEdges(self,memory):
-        print memory
+        print "memory: "+str(memory)
         print self.edge_list
         print "(Node memory, Weight memory, Node Value, Weight Value)"
         for x in self.edge_list:
@@ -50,6 +50,7 @@ class Node:
         return (math.exp(x))/(math.exp(x) + 1)
 
     def printNode(self,memory):
+        print "address of node: "+str(self.outputLoc)
         self.edges.printEdges(memory)     
         
             
@@ -196,7 +197,7 @@ class Agent:
             #edge_count stores the number of edges in each layer
             edge_base = 1000000 + self.edge_count[i+1]+(i+1)*100000
 
-            base = self.layer_count[i+1]
+            base = self.layer_count[i+1]+(i+1)*100000
             aLayer = Layer(base)
 
             for x in layer_structure:        
