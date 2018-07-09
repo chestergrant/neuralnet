@@ -170,7 +170,8 @@ class Agent:
         numPrevLayerNodes = numInput
         output = NeuralNet()
         self.layer_count[0] = numInput
-        
+        print "Number of Inputs: "+str(numInput)
+        print "Number of Layers: "+str(numLayers)
         print structure
 
         #Create the weights and nodes         
@@ -200,11 +201,11 @@ class Agent:
             base = self.layer_count[i+1]+(i+1)*100000
             aLayer = Layer(base)
 
-            for x in layer_structure:        
+            for x in layer_structure:
+                print "Value in layer: "+str(x)
+                aNode = Node()        
                 
-                for n in range(x):
-                    aNode = Node()
-                    for edge in range(n):
+                for edge in range(x):
                         edge_idx = edge_base + edge
                         memory[edge_idx] = random.uniform(-1,1)
                         self.edge_count[i+1] += 1      #maybe this should be edgecount idk                  
@@ -221,11 +222,10 @@ class Agent:
                         print  "upper bound: "+str(upper_bound)
                         randNode = random.randint(lower_bound,upper_bound) #The Output of a node need not be as memory layer.  I need to modify this
                         aNode.addEdge(randNode,edge_idx)
-
-                    aLayer.addNode(aNode)
-                    self.layer_count[i+1] += 1 #increase the number of nodes in layer
-                numPrevLayerNodes = len(layer_structure)
-                output.addLayer(aLayer)
+                aLayer.addNode(aNode)
+                self.layer_count[i+1] += 1 #increase the number of nodes in layer
+            numPrevLayerNodes = len(layer_structure)
+            output.addLayer(aLayer)
         return output, memory
         
                 
