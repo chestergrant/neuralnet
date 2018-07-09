@@ -203,7 +203,8 @@ class Agent:
 
             for x in layer_structure:
                 print "Value in layer: "+str(x)
-                aNode = Node()        
+                aNode = Node()
+                edge_base = 1000000 + self.edge_count[i+1]+(i+1)*100000        
                 
                 for edge in range(x):
                         edge_idx = edge_base + edge
