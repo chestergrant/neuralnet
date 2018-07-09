@@ -221,6 +221,7 @@ class Agent:
                         print 'lower bound: '+str(lower_bound)
                         print  "upper bound: "+str(upper_bound)
                         randNode = random.randint(lower_bound,upper_bound) #The Output of a node need not be as memory layer.  I need to modify this
+                        print "Input Node: "+str(randNode)+", Memory Address: "+str(edge_idx)+", Weight Value: "+str(memory[edge_idx])
                         aNode.addEdge(randNode,edge_idx)
                 aLayer.addNode(aNode)
                 self.layer_count[i+1] += 1 #increase the number of nodes in layer
