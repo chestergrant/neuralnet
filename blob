@@ -145,13 +145,14 @@ class Agent:
 #How do I modify it once it has been set
     def __init__(self, numCloneNets, cloneStructure, mainStructure):
         self.viewLength = 10
-        self.memory_capacity  = self.initializeMemory(cloneStructure,mainStructure)
+		self.memory ={}
+        
         self.layer_count = {} #Store for each layer the num of nodes cross all network
                              #in that layer number
         self.edge_count = {}
 
         self.clones = []
-        self.memory ={}
+        
         self.mainNet,self.memory = self.generateNetFromStructure(mainStructure, self.memory)
         self.memory = self.mainNet.setInput([0,1],self.memory)
         self.memory = self.mainNet.update(self.memory)
@@ -165,6 +166,8 @@ class Agent:
         for i in range(numCloneNets):
             aClone,self.memory = self.generateNetFromStructure(cloneStructure, self.memory)
             self.clones.append(aClone)
+		self.memory_capacity = len(self.memory.keys())
+	
     
     def generateNetFromStructure(self, structure, memory):
         #A structure for a neural net:
@@ -241,13 +244,15 @@ class Agent:
     def getMemoryView(self,memory):
         output = []
         count = 0
-        idx = self.memory_location - 25
+        idx = self.memory_location - (self.viewLength/2)
+		the_keys = memory.keys()
         while(count < self.viewLength):
             if idx < 0:
                 idx = idx + self.memory_capacity
             elif idx > self.memory_capacity-1:
                 idx = idx%self.memory_capacity
-            output.append(memory[idx])
+            output.append(memory[the_keys[idx]])
+			count += 1
         return output
             
        
